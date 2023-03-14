@@ -13,7 +13,7 @@ export default function SignUp() {
       username: username,
       email: email,
       password: password
-    }
+    };
 
     const url = ''
     const options = {
@@ -22,10 +22,11 @@ export default function SignUp() {
       headers: {
         "Content-Type": 'application/json'
       }
-    }
-    if (password!== confirmPassword) {
+    };
+
+    if (password !== confirmPassword) {
       console.log("Password doesn't match")
-    }
+    };
 
     const res = await fetch(url, options);
     const data = await res.json();
