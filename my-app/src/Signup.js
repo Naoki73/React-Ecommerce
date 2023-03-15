@@ -1,52 +1,64 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react';
 
-export default function SignUp() {
+import { Navigate } from 'react-router-dom';
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    const username = e.target.username.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const confirmPassword = e.target.confirmPassword.value;
+export default function Signup() {
+  const [redirect, setRedirect] = useState(false);
 
-    const reqBody = {
-      username: username,
-      email: email,
-      password: password
-    };
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      const username = e.target.username.value;
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const confirmPassword = e.target.confirmPassword.value;
 
-    const url = ''
-    const options = {
-      method: "POST",
-      body: JSON.stringify(reqBody),
-      headers: {
-        "Content-Type": 'application/json'
+      const reqBody = {
+          username: username,
+          email: email,
+          password: password
       }
-    };
 
-    if (password !== confirmPassword) {
-      console.log("Password doesn't match")
-    };
+      const url = 'http://127.0.0.1:5000/api/signup'
+      const options = {
+          method: "POST",
+          body: JSON.stringify(reqBody),
+          headers: {
+              "Content-Type": 'application/json'
+          }
+      }
+      if (password!== confirmPassword) {
+          console.log('Password doesnt match')
+      }
 
-    const res = await fetch(url, options);
-    const data = await res.json();
-    console.log(data)
+      const res = await fetch(url, options);
+      const data = await res.json();
+      console.log(data)
+      if (data.status==='ok'){
+          setRedirect(true)
+      }
 
   };
 
 
-  return (
-    <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <input name='username' placeholder='Username' />
-        <input name='email' placeholder='Email' />
-        <input name='password' type='password' placeholder='Password'/>
-        <input name='confirmPassword' type='password' placeholder='Confirm Password'/>
-        <button type='submit'>Sign Up</button>
 
-      </form>
 
-    </div>
+  return redirect?<Navigate to='/login' />:
+  
+  (
+      <div>
+          <h1>Sign Up</h1>
+          <form onSubmit={handleSubmit}>
+              <input name='username' placeholder='Username' />
+              <input name='email' placeholder='Email'/>
+              <input name='password' type='password' placeholder='Password'/>
+              <input name='confirmPassword' type='password' placeholder='Confirm Password'/>
+              <button type='submit'>Sign Up</button>
+
+
+          </form>
+
+
+
+      </div>
   )
 }

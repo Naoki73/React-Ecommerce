@@ -1,7 +1,8 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify, request
 from flask_cors import cross_origin
 from ..models import User
 from werkzeug.security import check_password_hash
+from ..apiauthhelper import basic_auth_required, token_auth_required, basic_auth, token_auth
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 
 api = Blueprint('api', __name__)
@@ -9,19 +10,6 @@ api = Blueprint('api', __name__)
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
-
-@basic_auth.verify_password
-def verifyPassword(username, password):
-    user = User.query.filter_by(username=username).first()
-    if user:
-        if check_password_hash(user.password, password):
-            return user
-
-@token_auth.verify_token
-def verifyToken(token):
-    user = User.query.filter_by(apitoken=token).first()
-    if user:
-        return user
 
 
 @api.route('/api/signup', methods=["POST"])

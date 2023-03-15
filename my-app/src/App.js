@@ -1,30 +1,39 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Home from './Home';
 import Nav from './Nav';
 import Shop from './Shop';
 import Login from './Login';
 import Signup from './Signup';
 
-import {Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import './App.css';
 
-export default class App extends Component {
+export default function App() {
 
-  render() {
-    return (
-      <BrowserRouter>
-        <div>
-          <Nav/>
-          
-          <Routes>
-            <Route path='/' element={<Home />}/>
-            <Route path='/Login' element={<Login />}/>
-            <Route path='/Signup' element={<Signup />}/>
-            <Route path='/Shop' element={<Shop />}/>
+  const [user, setUser] = useState({});
 
-          </Routes>
-        </div>
-      </BrowserRouter>
-    )
-  }
+  const logMeIn = (user) => {
+    setUser(user);
+  };
+  const logMeOut = () => {
+    setUser({});
+    localStorage.removeItem('user107')
+  };
+
+  return (
+    <BrowserRouter>
+      <div>
+        <Nav user={user} logMeOut={logMeOut}/>
+
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/Shop' element={<Shop />} />
+          <Route path='/Login' element={<Login logMeIn={logMeIn} />} />
+          <Route path='/Signup' element={<Signup />} />
+
+        </Routes>
+      </div>
+    </BrowserRouter>
+  )
 }
+

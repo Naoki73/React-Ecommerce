@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from secrets import token_hex
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
 
@@ -11,14 +12,14 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(45), nullable = False, unique = True)
     email = db.Column(db.String(100), nullable = False, unique = True)
-    password = db.Column(db.String(45), nullable = False)
+    password = db.Column(db.String(250), nullable = False)
     apitoken = db.Column(db.String)
 
-    def __init__(self, username, email, password, apitoken):
+    def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)
-        self.apitoken = apitoken
+        self.apitoken = token_hex(16)
 
     def saveToDB(self):
         db.session.add(self)
@@ -72,7 +73,7 @@ class Product(db.Model):
 class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
-    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def saveToDB(self):
@@ -86,6 +87,6 @@ class Cart(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'item_id': self.item_id,
+            'product_id': self.product_id,
             'customer_id': self.customer_id
         }
