@@ -14,7 +14,7 @@ export default class Nav extends Component {
                         <div className="navbar-nav">
                             <a className="nav-link active" aria-current="page" href="/">Home</a>
                             <a className="nav-link" aria-current="page" href="/Shop">Shop</a>
-
+                            <Link className="nav-link" to="/ToDoList">To Do List</Link>
                             { 
                             
                             this.props.user.apitoken
@@ -31,7 +31,7 @@ export default class Nav extends Component {
 
                             <Link className="nav-link"  to="/Login">Login</Link>
                             <Link className="nav-link"  to="/Signup">Signup</Link>
-
+                            
                             </>
 
                             }
