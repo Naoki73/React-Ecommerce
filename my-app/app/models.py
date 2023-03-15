@@ -9,6 +9,7 @@ db = SQLAlchemy()
 
 
 class User(db.Model, UserMixin):
+    __tablename__ = "User"
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(45), nullable = False, unique = True)
     email = db.Column(db.String(100), nullable = False, unique = True)
@@ -74,7 +75,7 @@ class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
-    customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
 
     def saveToDB(self):
         db.session.add(self)
