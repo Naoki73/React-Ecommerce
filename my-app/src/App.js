@@ -4,8 +4,8 @@ import Nav from './Nav';
 import Shop from './Shop';
 import Login from './Login';
 import Signup from './Signup';
-
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import ToDoList from './ToDoList';
 import './App.css';
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
           <Route path='/Shop' element={<Shop />} />
           <Route path='/Login' element={<Login logMeIn={logMeIn} />} />
           <Route path='/Signup' element={<Signup />} />
-
+          <Route path='/ToDoList' element={<ToDoList />}/>
         </Routes>
       </div>
     </BrowserRouter>
